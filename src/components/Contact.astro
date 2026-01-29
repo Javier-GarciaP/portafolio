@@ -1,0 +1,40 @@
+---
+import ContactCard from "./ContactCard.astro";
+import SectionContainer from "./SectionContainer.astro";
+---
+
+<div class="flex justify-center min-w-full bg-gray-900 text-gray-50">
+  <SectionContainer id="Contact">
+    <h1 class="text-center text-2xl">
+      Contáctame <span class="font-bold">Aquí</span>
+    </h1>
+    <form>
+      <div class="flex flex-col mt-6 max-w-md mx-auto gap-4">
+        <input
+          type="text"
+          placeholder="Tu Nombre"
+          class="p-3 rounded-md border-2 border-gray-700 bg-gray-800 text-gray-50 focus:outline-none focus:border-gray-500 transition-colors duration-200"
+        />
+        <input
+          type="email"
+          placeholder="Tu Correo Electrónico"
+          class="p-3 rounded-md border-2 border-gray-700 bg-gray-800 text-gray-50 focus:outline-none focus:border-gray-500 transition-colors duration-200"
+        />
+        <textarea
+          rows="5"
+          placeholder="Tu Mensaje"
+          class="p-3 rounded-md border-2 border-gray-700 bg-gray-800 text-gray-50 focus:outline-none focus:border-gray-500 transition-colors duration-200"
+        ></textarea>
+        <button
+          type="submit"
+          class="bg-gray-700 hover:bg-gray-600 text-gray-50 font-bold py-2 px-4 rounded-md transition-colors duration-200"
+        >
+          Enviar Mensaje
+        </button>
+      </div>
+    </form>
+    <div class="flex justify-center">
+      <ContactCard isLight={false} />
+    </div>
+  </SectionContainer>
+</div>

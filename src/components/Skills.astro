@@ -1,0 +1,45 @@
+---
+import SectionContainer from "./SectionContainer.astro";
+import JavaScriptIcon from "../icons/JavaScriptIcon.astro";
+import TypeScriptIcon from "../icons/TypeScriptIcon.astro";
+import ReactIcon from "../icons/ReactIcon.astro";
+import AstroIcon from "../icons/AstroIcon.astro";
+import TailwindIcon from "../icons/TailwindIcon.astro";
+import PythonIcon from "../icons/PythonIcon.astro";
+import FastAPIIcon from "../icons/FastAPIIcon.astro";
+import CloudflareIcon from "../icons/CloudflareIcon.astro";
+import HonoIcon from "../icons/HonoIcon.astro";
+import mySQLIcon from "../icons/MySQLIcon.astro";
+import { record } from "astro:schema";
+
+const skills = [
+  { name: "JavaScript", icon: JavaScriptIcon },
+  { name: "TypeScript", icon: TypeScriptIcon },
+  { name: "React", icon: ReactIcon },
+  { name: "Astro", icon: AstroIcon },
+  { name: "Tailwind CSS", icon: TailwindIcon },
+  { name: "Python", icon: PythonIcon },
+  { name: "FastAPI", icon: FastAPIIcon },
+  { name: "Cloudflare", icon: CloudflareIcon },
+  { name: "Hono", icon: HonoIcon },
+  { name: "MySQL", icon: mySQLIcon },
+];
+---
+
+<SectionContainer id="Skills">
+  <h1 class="text-center text-2xl">
+    Mis <span class="font-bold">Habilidades</span>
+  </h1>
+  <div class="grid grid-cols-5 grid-rows-2 gap-8 mt-10">
+    {
+        skills.map(({name, icon:Icon}) => {
+            return(
+                <div class="flex flex-col justify-center items-center ">
+                    <Icon class="size-10" />
+                    <p class="font-bold mt-8">{name}</p>
+                </div>
+            )
+        })
+    }
+  </div>
+</SectionContainer>

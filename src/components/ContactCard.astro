@@ -1,0 +1,118 @@
+---
+import GitHubIcon from "../icons/GitHubIcon.astro";
+import EmailIcon from "../icons/EmailIcon.astro";
+
+// Definimos los contactos. El email tiene la bandera 'isCopy'
+const contact = [
+  {
+    name: "GitHub",
+    url: "https://github.com/Javier-GarciaP",
+    icon: GitHubIcon,
+  },
+  {
+    name: "Email",
+    icon: EmailIcon,
+    text: "josejaviergarciap123@gmail.com",
+    isCopy: true, 
+  },
+];
+
+const { isLight } = Astro.props;
+
+// Clases completas para que Tailwind las detecte sin problemas
+const theme = isLight 
+  ? { 
+      border: "border-gray-900", 
+      bgHover: "hover:bg-gray-900", 
+      text: "text-gray-900", 
+      textHover: "group-hover:text-gray-50" 
+    }
+  : { 
+      border: "border-gray-50", 
+      bgHover: "hover:bg-gray-50", 
+      text: "text-gray-50", 
+      textHover: "group-hover:text-gray-900" 
+    };
+---
+
+<div class="contact-container flex flex-wrap gap-2 mt-10 relative justify-center md:justify-start">
+  {
+    contact.map((item) => {
+      const Icon = item.icon;
+      return (
+        <a
+          class={`
+            ${item.isCopy ? 'copy-email-btn' : ''} 
+            flex p-2 rounded-sm border-2 transition-all duration-200 
+            items-center justify-center select-none cursor-pointer 
+            ${theme.border} ${theme.bgHover} group
+          `}
+          href={item.url || "javascript:void(0)"}
+          target={item.url ? "_blank" : "_self"}
+          data-email={item.isCopy ? item.text : null}
+        >
+          <Icon class={`size-5 transition-colors ${theme.text} ${theme.textHover}`} />
+          
+          {item.text && (
+            <span class={`ml-2 text-sm font-medium transition-colors ${theme.text} ${theme.textHover}`}>
+              {item.text}
+            </span>
+          )}
+        </a>
+      );
+    })
+  }
+
+  <div 
+    class="copy-notification pointer-events-none fixed bottom-10 left-1/2 -translate-x-1/2 m-4 p-2 bg-gray-900 text-white text-xs font-bold rounded shadow-2xl opacity-0 transition-opacity duration-300 z-50 border border-gray-700"
+  >
+    ¡Copiado al portapapeles! ✅
+  </div>
+</div>
+
+<script>
+  /**
+   * Encapsulamos la lógica para que cada componente 
+   * maneje su propio botón y su propio tooltip.
+   */
+  function setupContactCopy() {
+    const containers = document.querySelectorAll('.contact-container');
+
+    containers.forEach((container) => {
+      const btn = container.querySelector('.copy-email-btn');
+      const tooltip = container.querySelector('.copy-notification');
+
+      if (btn && tooltip) {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          
+          const email = btn.getAttribute('data-email');
+          
+          if (email) {
+            navigator.clipboard.writeText(email).then(() => {
+              // Mostramos el tooltip específico de este contenedor
+              if (tooltip instanceof HTMLElement) {
+                tooltip.classList.replace('opacity-0', 'opacity-100');
+                
+                setTimeout(() => {
+                  tooltip.classList.replace('opacity-100', 'opacity-0');
+                }, 2000);
+              }
+            }).catch(err => console.error("Error al copiar:", err));
+          }
+        });
+      }
+    });
+  }
+
+  // Ejecutar al cargar y si usas View Transitions, al cambiar de página
+  setupContactCopy();
+  document.addEventListener('astro:after-swap', setupContactCopy);
+</script>
+
+<style>
+  /* Evita que el botón se vea azul al hacer click rápido */
+  .copy-email-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+</style>

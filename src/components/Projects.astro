@@ -1,0 +1,104 @@
+---
+import GitHubIcon from "../icons/GitHubIcon.astro";
+import SectionContainer from "./SectionContainer.astro";
+import SiteIcon from "../icons/SiteIcon.astro";
+
+const projects = [
+  {
+    date: "Enero del 2026",
+    title: "React Biper",
+    tecnoligies: ["React", "TypeScript", "Tailwind CSS"],
+    description:
+      "Biblioteca para React para manejar las notificaciones de las aplicaciones web.",
+    links: {
+      github: "https://github.com/Javier-GarciaP/biper",
+      live: "https://biper.vercel.app/",
+    },
+    imgURL: "/public/screen/biper.png",
+  },
+  {
+    date: "Diciembre del 2025",
+    title: "SunBody Pos",
+    tecnoligies: ["React", "TypeScript", "Cloudflare Workers", "Hono", "MySQL"],
+    description:
+      "Sistema Point of Sale para tiendas de ropa, manejo de inventario, ventas y reportes.",
+    links: {
+      github: "https://github.com/Javier-GarciaP/sunbody",
+    },
+    imgURL: "/public/screen/sunbody.png",
+  },
+  {
+    date: "Septiembre del 2025",
+    title: "Vitaly Pro",
+    tecnoligies: ["React", "TypeScript", "Cloudflare Workers", "Hono", "MySQL"],
+    description:
+      "Plataforma web para gestion de Laboratorio Clínico, manejo de pacientes, facturación y reportes medicos profesionales.",
+    links: {
+      github: "https://github.com/Javier-GarciaP/vitaly-web",
+    },
+    imgURL: "/public/screen/vitaly.png",
+  },
+  {
+    date: "Julio del 2025",
+    title: "DecoartesJB",
+    tecnoligies: ["Astro", "Taildwind CSS"],
+    description:
+      "Sitio web para empresa de decoración de eventos, formales, informales, empresariales.",
+    links: {
+      github: "https://github.com/Javier-GarciaP/lading-page-decoartesjb",
+      live: "https://decoartesjb.vercel.app/",
+    },
+    imgURL: "/public/screen/decoartes.png",
+  },
+];
+
+---
+
+<div class="flex justify-center min-w-full bg-gray-900 text-gray-50">
+  <SectionContainer id="Projects">
+    <h1 class="text-center text-2xl">
+      Mis <span class="font-bold">Proyectos</span>
+    </h1>
+
+    {
+      projects.map(
+        ({ date, title, tecnoligies, description, links, imgURL }) => {
+          return (
+            <div
+            class="grid grid-cols-1 gap-8 mt-10 md:grid-cols-2 md:grid-rows-1 items-center"
+            
+            >
+              <img class="rounded-xl w-full h-auto" src={imgURL} alt="" />
+              <div class="flex flex-col justify-center gap-4">
+                <div>
+                  <span class="font-bold text-sm">{date}</span>
+                  <h3 class="font-black text-xl">{title}</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  {tecnoligies.map((tech) => (
+                    <span class=" bg-gray-700 text-gray-200 rounded-full px-3 py-1 text-sm font-semibold">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <p>{description}</p>
+                <div class="flex gap-2">
+                  {links.github ? (
+                    <a class="flex group hover:cursor-pointer hover:bg-gray-50 rounded-sm transition-colors duration-100 ease-in-out" href={links.github} target="_blank">
+                      <GitHubIcon class="group-hover:text-gray-900"/>
+                    </a>
+                  ) : null}
+                  {links.live ? (
+                    <a class="flex group hover:cursor-pointer hover:bg-gray-50 rounded-sm transition-colors duration-100 ease-in-out" href={links.live} target="_blank">
+                      <SiteIcon class="group-hover:text-gray-900"/>
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          );
+        },
+      )
+    }
+  </SectionContainer>
+</div>

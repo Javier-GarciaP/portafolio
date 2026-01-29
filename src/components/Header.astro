@@ -1,0 +1,31 @@
+---
+import DonwloadIcon from "../icons/DonwloadIcon.astro";
+---
+
+<header class="flex items-center justify-between w-full max-w-6xl py-4 mx-auto">
+  <span class="hidden md:block font-bold">Javier García</span>
+  <nav class="flex gap-8 font-semibold">
+    <a
+      class="hover:underline hover:text-black transition-colors duration-100"
+      href="#Projects">Proyectos</a
+    >
+    <a
+      class="hidden md:block hover:underline hover:text-black transition-colors duration-100"
+      href="#About">Sobre Mi</a
+    >
+    <a
+      class="hover:underline hover:text-black transition-colors duration-100"
+      href="#Contact">Contacto</a
+    >
+  </nav>
+  <a
+    href="public/CV_Jose_Javier_Garcia_(Est. UNET).pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <button
+      class="flex gap-2 rounded-full px-2 py-1 md:px-4 md:py-2 bg-gray-900 text-gray-50 hover:cursor-pointer hover:scale-105 hover:bg-black transition-all duration-100"
+      >Resumen CV <DonwloadIcon class="size-5 text-gray-50" /></button
+    >
+  </a>
+</header>
