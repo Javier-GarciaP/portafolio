@@ -28,6 +28,7 @@ export type Project = {
     features?: { heading: string; items: Feature[] };
     statusCard?: { heading: string; items: Feature[] };
     tech: string[];
+    siteUrl?: string;
     techNote: string;
     captures?: { heading: string; note: string; items: Capture[] };
     results?: { heading: string; text: string };
@@ -179,29 +180,29 @@ export const clientProjects: Project[] = [
       },
       next: {
         label: "Siguiente caso",
-        name: "DecoartesJB",
-        slug: "/casos/decoartesjb",
-        scene: "/scenes/scene-decoartes.webp",
-        field: "field-decoartes",
+        name: "SJB Decoarte",
+        slug: "/casos/sjb-decoarte",
+        scene: "/scenes/scene-sjb-decoarte.webp",
+        field: "field-sjb",
       },
     },
   },
   {
     kind: "client",
-    slug: "decoartesjb",
-    name: "DecoartesJB",
-    scene: "/scenes/scene-decoartes.webp",
+    slug: "sjb-decoarte",
+    name: "SJB Decoarte",
+    scene: "/scenes/scene-sjb-decoarte.webp",
     sceneAlt:
       "Escena isométrica pixel art de un salón de eventos decorado: arco floral, mesas redondas, cuadros en la pared y luces colgadas arriba.",
-    field: "field-decoartes",
+    field: "field-sjb",
     meta: "jul - sep 2025 · Sitio web · En uso",
     status: "En uso por el cliente",
     description:
-      "Sitio de alto rendimiento para eventos corporativos, sociales y bodas, con galerías por categoría y carga optimizada de imágenes en alta resolución.",
-    result: "Galerías de alta resolución que cargan de forma optimizada.",
+      "Sitio web para una empresa de diseño de eventos en Santiago, especializada en bodas y eventos corporativos, con galerías por categoría e imágenes en alta resolución optimizadas.",
+    result: "Galerías por categoría con imágenes de alta resolución optimizadas.",
     detail: {
       intro:
-        "Sitio web de alto rendimiento para una decoradora de eventos, con galerías por categoría.",
+        "Sitio web para SJB Decoarte, empresa de diseño de eventos en Santiago, especializada en bodas y eventos corporativos de alto nivel, con galerías por categoría.",
       facts: [
         { label: "Rol", value: "Desarrollador" },
         { label: "Periodo", value: "jul - sep 2025" },
@@ -211,29 +212,35 @@ export const clientProjects: Project[] = [
       sections: [
         {
           title: "El problema",
-          text: "Una decoradora de eventos necesita mostrar su trabajo en galerías de alta resolución que carguen rápido.",
+          text: "Una empresa de diseño de eventos necesita mostrar su trabajo de bodas y eventos corporativos en galerías de imágenes de alta resolución que carguen rápido.",
         },
         {
           title: "La solución",
-          text: "Sitio de alto rendimiento con galerías por categoría y carga optimizada de imágenes en alta resolución.",
+          text: "Sitio web con galerías por categoría e imágenes en alta resolución optimizadas para que carguen bien.",
         },
       ],
       tech: ["Astro", "Tailwind"],
       techNote: "Sitio público, ya en uso por la clienta.",
+      siteUrl: "https://www.sjbdecoarte.cl",
       captures: {
         heading: "Capturas del sitio",
-        note: "Captura real del sitio público, sin datos de personas.",
+        note: "Capturas reales del sitio público, sin datos de personas.",
         items: [
           {
-            src: "/captures/decoartes-sitio.webp",
-            alt: "Portada del sitio de DecoartesJB: fondo oscuro con texto Creamos Momentos Inolvidables y botones Agendar cita y Ver galería.",
-            caption: "Portada del sitio público",
+            src: "/captures/sjb-decoarte-inicio.webp",
+            alt: "Página de inicio de SJB Decoarte: fondo oscuro con el titular «Diseño de eventos con elegancia y sofisticación», una estatua dorada con una flor y el texto «Creamos Momentos Inolvidables».",
+            caption: "Página de inicio",
+          },
+          {
+            src: "/captures/sjb-decoarte-galeria.webp",
+            alt: "Galería de matrimonios de SJB Decoarte: fotos de mesas decoradas con flores, uvas y velas, lámparas con flecos y un salón con candelabros.",
+            caption: "Galería de matrimonios",
           },
         ],
       },
       results: {
         heading: "Resultados",
-        text: "Galerías de alta resolución que cargan de forma optimizada.",
+        text: "Galerías por categoría con imágenes de alta resolución optimizadas.",
       },
       next: {
         label: "Siguiente proyecto",

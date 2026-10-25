@@ -14,14 +14,14 @@ const code =
   {
     "bodegon-goyo": "bodegon",
     "laboratorio-clinico-vitaly": "vitaly",
-    decoartesjb: "decoartes",
+    "sjb-decoarte": "sjb",
   }[project.slug] ?? project.slug;
 const nextFieldClass =
   ((d.next?.scene ?? "").match(/scene-(\w+)\.webp/) || [])[1];
 const fieldClasses: Record<string, string> = {
   bodegon: "bg-field-bodegon",
   vitaly: "bg-field-vitaly",
-  decoartes: "bg-field-decoartes",
+  sjb: "bg-field-sjb",
   sprixel: "bg-field-sprixel",
   fosforo: "bg-field-fosforo",
 };
@@ -150,6 +150,15 @@ const nextClass =
               ))}
             </ul>
             <p class="mt-4 text-[14px] text-muted">{d.techNote}</p>
+            {d.siteUrl && (
+              <a
+                href={d.siteUrl}
+                class="mt-3 inline-block text-[14px] text-ink underline underline-offset-4"
+                rel="noopener"
+              >
+                Ver el sitio en vivo: {d.siteUrl.replace("https://", "")}
+              </a>
+            )}
           </div>
         </div>
       </section>
