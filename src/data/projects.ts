@@ -152,6 +152,27 @@ export const clientProjects: Project[] = [
       ],
       tech: ["Tauri", "TypeScript", "PWA"],
       techNote: "Funciona sin conexión. Ya está desplegado y en uso por el cliente.",
+      captures: {
+        heading: "Capturas de la aplicación",
+        note: "Capturas reales con datos de prueba.",
+        items: [
+          {
+            src: "/captures/vitaly-resultados.webp",
+            alt: "Pantalla de resultados de la aplicación del laboratorio: lista de estudios con estado completado, en proceso o pendiente y acciones para generar el reporte.",
+            caption: "Resultados",
+          },
+          {
+            src: "/captures/vitaly-panel.webp",
+            alt: "Panel maestro: pacientes del día, estudios en curso de un paciente y lista de estudios que se pueden añadir.",
+            caption: "Panel maestro",
+          },
+          {
+            src: "/captures/vitaly-informe.webp",
+            alt: "Vista previa de un informe de hematología con series roja y blanca, plaquetas y rangos de referencia.",
+            caption: "Informe de laboratorio",
+          },
+        ],
+      },
       results: {
         heading: "Resultados",
         text: "Menos errores al cargar resultados.",
@@ -279,18 +300,18 @@ export const openProjects: Project[] = [
       tech: ["Tauri 2", "Go"],
       techNote: "Proyecto público en GitHub.",
       captures: {
-        heading: "Imágenes",
-        note: "Diseños de la herramienta, no capturas reales: la versión 1 aún está en construcción.",
+        heading: "Capturas de la aplicación",
+        note: "Capturas reales de la versión actual (0.1.0).",
         items: [
           {
             src: "/captures/sprixel-editor.webp",
-            alt: "Diseño del editor de Sprixel: lienzo con un sprite de goblin, tira de frames, paleta de colores y panel de vista previa.",
-            caption: "Editor (diseño)",
+            alt: "Editor de Sprixel con un sprite de vaca de 32 por 32 píxeles en el lienzo, paleta de colores, vista previa animada y lista de frames.",
+            caption: "Editor",
           },
           {
             src: "/captures/sprixel-proyecto.webp",
-            alt: "Diseño de la vista de proyecto de Sprixel: carpetas a la izquierda y cuadrícula de sprites de personajes.",
-            caption: "Proyecto (diseño)",
+            alt: "Vista de proyecto de Sprixel: carpetas a la izquierda y tarjetas con los sprites del proyecto, entre ellos la vaca.",
+            caption: "Proyecto",
           },
         ],
       },
@@ -359,6 +380,22 @@ export const openProjects: Project[] = [
       },
       tech: ["Go"],
       techNote: "Proyecto público en GitHub.",
+      captures: {
+        heading: "Capturas de la aplicación",
+        note: "Capturas reales de la versión beta.",
+        items: [
+          {
+            src: "/captures/fosforo-editor.webp",
+            alt: "Pantalla de bienvenida de Fósforo en la terminal: explorador de archivos a la izquierda, logo y lista de atajos de teclado.",
+            caption: "Bienvenida",
+          },
+          {
+            src: "/captures/fosforo-readme.webp",
+            alt: "Vista previa de un README en Markdown dentro de Fósforo, con títulos, listas y una tabla.",
+            caption: "Vista previa de Markdown",
+          },
+        ],
+      },
       openLicense: {
         heading: "Código abierto, licencia MIT",
         text: "El repositorio es público. Puedes mirar el código y abrir una conversación en GitHub.",
