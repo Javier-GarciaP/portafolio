@@ -1,34 +1,51 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-// Supports weights 100-900
-import "@fontsource-variable/onest";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../data/projects";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+const {
+  title,
+  description,
+  ogImage = "/scenes/scene-hero.webp",
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE);
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
-		<link rel="icon" href="/icon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>José García - Desarrollador Fullstack</title>
-	</head>
-	<body class="flex flex-col w-screen items-center bg-gray-50 text-gray-900">
-		<Header />
-		<slot />
-		<Footer />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" href="/icon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, SITE)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600;700&display=swap"
+    />
+  </head>
+  <body class="bg-ground text-ink">
+    <Nav />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+  </body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-		font-family: "Onest Variable", sans-serif;
-	}
-</style>

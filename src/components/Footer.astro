@@ -1,13 +1,64 @@
-<div class="flex justify-center min-w-full bg-gray-900 text-gray-50">
-  <footer
-    class="flex justify-between w-full max-w-6xl my-20 text-gray-400 text-xs md:text-sm px-2 md:px-0"
-  >
-  <span>
-    © 2025 Javier García. Casi todos los derechos reservados.
-  </span>
-  <span class="flex gap-6">
-    <a class="hover:text-gray-200 transition-colors duration-100 hover:cursor-pointer" href="#Projects">Proyectos</a>
-    <a class="hover:text-gray-200 transition-colors duration-100 hover:cursor-pointer" href="#Skills">Skilss</a>
-  </span>
-  </footer>
-</div>
+---
+const cols = [
+  { href: "/#casos", label: "Casos" },
+  { href: "/#comunidad", label: "Comunidad" },
+  { href: "/#como-trabajo", label: "Cómo trabajo" },
+  { href: "/#sobre-mi", label: "Sobre mí" },
+  { href: "/#contacto", label: "Contacto" },
+];
+---
+
+<footer class="page-x bg-ground pt-16 pb-10">
+  <p class="font-display text-4xl font-extrabold tracking-tight text-ink md:text-[54px]">
+    José Javier García
+  </p>
+  <div class="mt-8 flex flex-wrap items-center gap-x-7 gap-y-2">
+    <span class="text-sm text-muted grow">
+      © 2026 José Javier García. San Cristóbal, Venezuela.
+    </span>
+    {
+      cols.map((l) => (
+        <a href={l.href} class="text-sm text-muted hover:text-ink">
+          {l.label}
+        </a>
+      ))
+    }
+    <button
+      id="light-toggle"
+      type="button"
+      class="text-sm text-muted underline decoration-dotted underline-offset-4 hover:text-ink"
+      aria-pressed="false"
+    >
+      Modo ligero
+    </button>
+  </div>
+</footer>
+
+<script>
+  // Light version (task 3b.4): small static scenes, no loops or journey.
+  // The choice is saved in localStorage, as the design notes say.
+  const KEY = "light-mode";
+  const root = document.documentElement;
+  const toggle = document.getElementById("light-toggle");
+
+  function apply(on: boolean) {
+    root.dataset.light = on ? "on" : "off";
+    for (const img of document.querySelectorAll<HTMLImageElement>(
+      "img[data-light]",
+    )) {
+      const wanted = on ? img.dataset.light : img.dataset.full;
+      if (wanted && img.getAttribute("src") !== wanted) img.src = wanted;
+    }
+    if (toggle) {
+      toggle.setAttribute("aria-pressed", String(on));
+      toggle.textContent = on ? "Modo completo" : "Modo ligero";
+    }
+  }
+
+  apply(localStorage.getItem(KEY) === "1");
+  toggle?.addEventListener("click", () => {
+    const on = root.dataset.light !== "on";
+    localStorage.setItem(KEY, on ? "1" : "0");
+    apply(on);
+  });
+</script>

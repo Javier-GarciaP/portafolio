@@ -1,0 +1,63 @@
+---
+const stops = [
+  { id: "hero", label: "Hero" },
+  { id: "bodegon", label: "Bodegón" },
+  { id: "vitaly", label: "Vitaly" },
+  { id: "sjb", label: "SJB Decoarte" },
+  { id: "sprixel", label: "Sprixel" },
+  { id: "fosforo", label: "Fósforo" },
+];
+---
+
+<nav
+  aria-label="Posición en la página"
+  class="fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 flex-col gap-3 lg:flex"
+>
+  {
+    stops.map((s) => (
+      <a href={`#cap-${s.id}`} data-rail-link={s.id} class="flex items-center justify-end gap-2">
+        <span class="text-[11px] text-muted opacity-0 transition-opacity">{s.label}</span>
+        <span class="rail-dot size-2.5 rounded-full bg-muted/40"></span>
+        <span class="sr-only">{s.label}</span>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  a[aria-current="true"] .rail-dot {
+    background: var(--color-accent);
+    transform: scale(1.4);
+  }
+  a:hover .rail-dot,
+  a:focus-visible .rail-dot {
+    background: var(--color-ink);
+  }
+</style>
+
+<script>
+  const links = new Map(
+    [...document.querySelectorAll("[data-rail-link]")].map((a) => [
+      a.getAttribute("data-rail-link"),
+      a,
+    ]),
+  );
+  const sections = [...document.querySelectorAll("[data-rail]")];
+  if (links.size && sections.length) {
+    const mark = (id: string) => {
+      for (const [key, a] of links)
+        a.setAttribute("aria-current", String(key === id));
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries)
+          if (e.isIntersecting) {
+            mark(e.target.getAttribute("data-rail") ?? "");
+            break;
+          }
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    sections.forEach((s) => io.observe(s));
+  }
+</script>
