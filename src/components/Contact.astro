@@ -1,94 +1,106 @@
 ---
-import ContactCard from "./ContactCard.astro";
-import SectionContainer from "./SectionContainer.astro";
+import { CV_URL, EMAIL } from "../data/projects";
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
 ---
 
-<div class="flex justify-center min-w-full bg-gray-900 text-gray-50">
-  <SectionContainer id="Contact">
-    <h1 class="text-center text-2xl">
-      Contáctame <span class="font-bold">Aquí</span>
-    </h1>
-    <form id="contact-form">
-      <div class="flex flex-col mt-6 max-w-md mx-auto gap-4">
-        <input
-          type="text"
-          name="name"
-          required
-          placeholder="Tu Nombre"
-          class="p-3 rounded-md border-2 border-gray-700 bg-gray-800 text-gray-50 focus:outline-none focus:border-gray-500 transition-colors duration-200"
-        />
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="Tu Correo Electrónico"
-          class="p-3 rounded-md border-2 border-gray-700 bg-gray-800 text-gray-50 focus:outline-none focus:border-gray-500 transition-colors duration-200"
-        />
-        <textarea
-          name="message"
-          required
-          rows="5"
-          placeholder="Tu Mensaje"
-          class="p-3 rounded-md border-2 border-gray-700 bg-gray-800 text-gray-50 focus:outline-none focus:border-gray-500 transition-colors duration-200"
-        ></textarea>
-        <button
-          type="submit"
-          id="submit-button"
-          class="bg-gray-700 hover:bg-gray-600 text-gray-50 font-bold py-2 px-4 rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Enviar Mensaje
-        </button>
-        <div id="form-status" class="text-center hidden p-2 rounded-md"></div>
+{
+  compact ? (
+    <section class="bg-accent px-6 py-12 md:px-16">
+      <div class="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-8 gap-y-4">
+        <h2 class="font-display text-[26px] font-extrabold tracking-tight text-on-orange md:text-[32px]">
+          Hablemos de tu proyecto
+        </h2>
+        <a href="#contacto" class="btn bg-white text-on-orange [border-bottom-color:color-mix(in_srgb,var(--color-on-orange)_25%,transparent)]">
+          Escríbeme
+        </a>
+        <a href={`mailto:${EMAIL}`} class="font-semibold text-on-orange underline underline-offset-4">
+          {EMAIL}
+        </a>
       </div>
-    </form>
-    <div class="flex justify-center">
-      <ContactCard isLight={false} />
-    </div>
-  </SectionContainer>
-</div>
+    </section>
+  ) : (
+    <section id="contacto" class="bg-accent">
+      <div class="page-x mx-auto grid max-w-[1440px] gap-10 py-16 md:grid-cols-2 md:gap-16">
+        <div>
+          <h2 class="font-display text-[28px] font-extrabold tracking-tight text-on-orange md:text-[44px]">
+            Hablemos de tu proyecto
+          </h2>
+          <p class="mt-4 max-w-[480px] text-[16px] leading-relaxed text-on-orange/80">
+            Cuéntame qué necesita tu negocio y lo vemos por correo.
+          </p>
+          <p class="mt-8 text-[16px] font-semibold text-on-orange">
+            <a href={`mailto:${EMAIL}`} class="rounded-md bg-on-orange px-4 py-2 text-ink">
+              {EMAIL}
+            </a>
+          </p>
+          <a href={CV_URL} download class="btn btn-light mt-8">Descargar CV</a>
+        </div>
+        <form id="contact-form" aria-label="Formulario de contacto" class="grid content-start gap-5">
+          <!-- Honeypot: hidden for people, bots fill it. -->
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label>Sitio web <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <label class="grid gap-2 text-sm font-semibold text-on-orange">
+            Nombre
+            <input
+              type="text"
+              name="name"
+              required
+              minlength="2"
+              class="rounded-[8px] border border-white/20 bg-on-orange px-4 py-3 text-[15px] text-ink"
+            />
+          </label>
+          <label class="grid gap-2 text-sm font-semibold text-on-orange">
+            Correo
+            <input
+              type="email"
+              name="email"
+              required
+              class="rounded-[8px] border border-white/20 bg-on-orange px-4 py-3 text-[15px] text-ink"
+            />
+          </label>
+          <label class="grid gap-2 text-sm font-semibold text-on-orange">
+            Mensaje
+            <textarea
+              name="message"
+              rows="4"
+              required
+              minlength="10"
+              class="rounded-[8px] border border-white/20 bg-on-orange px-4 py-3 text-[15px] text-ink"
+            ></textarea>
+          </label>
+          <button type="submit" class="btn justify-center bg-white text-on-orange [border-bottom-color:color-mix(in_srgb,var(--color-on-orange)_25%,transparent)]">
+            Enviar mensaje
+          </button>
+          <p id="contact-status" role="status" class="min-h-6 text-sm font-semibold text-on-orange"></p>
+        </form>
+      </div>
+    </section>
+  )
+}
 
 <script>
   import { actions } from "astro:actions";
 
-  const form = document.getElementById("contact-form") as HTMLFormElement;
-  const statusDiv = document.getElementById("form-status");
-  const submitButton = document.getElementById(
-    "submit-button",
-  ) as HTMLButtonElement;
-
-  form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    if (!statusDiv || !submitButton) return;
-
-    // Reset status
-    statusDiv.classList.add("hidden");
-    statusDiv.textContent = "";
-    submitButton.disabled = true;
-    submitButton.textContent = "Enviando...";
-
-    const formData = new FormData(form);
-
-    try {
-      const { data, error } = await actions.sendEmail(formData);
-
-      if (error) {
-        statusDiv.textContent = `Error: ${error.message || "Ocurrió un error al enviar el mensaje"}`;
-        statusDiv.classList.remove("hidden");
-        statusDiv.classList.add("bg-red-900/50", "text-red-200");
-      } else {
-        statusDiv.textContent = "¡Mensaje enviado con éxito!";
-        statusDiv.classList.remove("hidden");
-        statusDiv.classList.add("bg-green-900/50", "text-green-200");
-        form.reset();
-      }
-    } catch (e) {
-      statusDiv.textContent = "Ocurrió un error inesperado.";
-      statusDiv.classList.remove("hidden");
-      statusDiv.classList.add("bg-red-900/50", "text-red-200");
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = "Enviar Mensaje";
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("contact-status");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!status) return;
+    status.textContent = "Enviando...";
+    const { error } = await actions.sendEmail(new FormData(form));
+    if (error) {
+      // Zod errors come per field; show the first one in Spanish.
+      const fields = error.fields as Record<string, string[] | undefined> | undefined;
+      status.textContent =
+        Object.values(fields ?? {}).flat()[0] ?? error.message;
+      return;
     }
+    form.reset();
+    status.textContent = "Mensaje enviado. Te respondo pronto.";
   });
 </script>

@@ -1,19 +1,132 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import Skills from '../components/Skills.astro';
-import Projects from '../components/Projects.astro';
-import Contact from '../components/Contact.astro';
-import About from '../components/About.astro';
+import Layout from "../layouts/Layout.astro";
+import Scene from "../components/Scene.astro";
+import Chapter from "../components/Chapter.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import Contact from "../components/Contact.astro";
+import Rail from "../components/Rail.astro";
+import { clientProjects, openProjects, CV_URL } from "../data/projects";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const workRows = [
+  {
+    title: "Entiendo el problema primero",
+    text: "Antes de elegir tecnología entiendo qué necesita resolver el negocio.",
+  },
+  {
+    title: "Funciona sin conexión",
+    text: "Arquitectura offline-first: el sistema sigue operando cuando no hay red.",
+  },
+  {
+    title: "Escritorio y web",
+    text: "Aplicaciones de escritorio con Tauri y PWA, según lo que necesite cada negocio.",
+  },
+  {
+    title: "Entregas por etapas",
+    text: "Trabajo con Scrum: objetivos claros y revisión frecuente. Las matemáticas y el análisis me ayudan a ver el problema antes de escribir código.",
+  },
+];
 ---
 
-<Layout>
-	<Hero/>
-	<Skills/>
-	<Projects/>
-	<About/>
-	<Contact/>
+<Layout
+  title="José Javier García — Software que trabaja aunque no haya red"
+  description="Desarrollador de software en San Cristóbal, Venezuela. Aplicaciones web y de escritorio que siguen funcionando sin conexión."
+>
+  <Rail />
+
+  <section id="cap-hero" data-rail="hero" class="ch-hero bg-ground pt-16">
+    <div
+      class="page-x mx-auto grid max-w-[1440px] items-center gap-8 py-10 md:grid-cols-[32%_1fr] md:py-4"
+    >
+      <div>
+        <h1 class="font-display text-[36px] leading-[1.06] font-extrabold tracking-[-0.03em] text-ink md:text-[54px]">
+          Software que trabaja aunque no haya red.
+        </h1>
+        <p class="mt-6 max-w-[320px] text-[16px] leading-relaxed text-muted md:text-[17px]">
+          Soy José Javier García, desarrollador de software en San Cristóbal,
+          Venezuela. Hago aplicaciones web y de escritorio que siguen
+          funcionando sin conexión.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#casos" class="btn btn-accent">Ver los casos</a>
+          <a href={CV_URL} download class="btn btn-light">Descargar CV</a>
+        </div>
+        <p class="mt-16 text-[13px] text-muted">
+          Baja y la cámara recorre cada caso.
+        </p>
+      </div>
+      <Scene
+        scene="/scenes/scene-hero.webp"
+        alt="Escena isométrica pixel art de un taller: un portátil con el check verde del Wi-Fi apagado, escritorio, ventana de noche y plantas."
+        eager
+        className="scene-lift"
+      />
+    </div>
+  </section>
+
+  <SectionTitle
+    id="casos"
+    title="Casos de clientes"
+    text="Proyectos hechos para un negocio. Cada uno es una pequeña escena."
+  />
+  {clientProjects.map((p) => <Chapter project={p} />)}
+
+  <SectionTitle
+    id="comunidad"
+    title="En desarrollo, abierto a la comunidad"
+    text="Proyectos propios de código abierto, en construcción. Los repositorios son públicos."
+  />
+  {openProjects.map((p) => <Chapter project={p} />)}
+
+  <SectionTitle id="como-trabajo" title="Cómo trabajo" text="" />
+  <section class="page-x mx-auto max-w-[1440px] pb-16">
+    <div class="border-t border-raised">
+      {
+        workRows.map((r) => (
+          <div class="grid gap-2 border-b border-raised py-8 md:grid-cols-[36%_1fr] md:gap-12">
+            <h3 class="font-display text-[18px] font-extrabold text-ink">
+              {r.title}
+            </h3>
+            <p class="max-w-[632px] text-[16px] leading-relaxed text-muted">
+              {r.text}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="sobre-mi" class="bg-surface">
+    <div class="page-x mx-auto grid max-w-[1440px] gap-10 py-16">
+      <div>
+        <h2 class="font-display text-[28px] font-extrabold tracking-tight text-ink md:text-[40px]">
+          Sobre mí
+        </h2>
+        <p class="mt-6 max-w-[632px] text-[17px] leading-relaxed text-ink/90">
+          Soy estudiante de Ingeniería en Informática en la UNET, en San
+          Cristóbal, Venezuela, y desarrollador de software.
+        </p>
+        <p class="mt-4 max-w-[632px] text-[17px] leading-relaxed text-muted">
+          Me enfoco en soluciones multiplataforma y en sistemas offline-first.
+          Trabajo con Scrum y uso las matemáticas y el pensamiento analítico
+          para entender bien el problema.
+        </p>
+        <dl class="mt-8 grid gap-4 text-[15px]">
+          <div class="grid md:grid-cols-[120px_1fr] md:gap-8">
+            <dt class="font-semibold text-muted">Ubicación</dt>
+            <dd class="text-ink">San Cristóbal, Táchira, Venezuela</dd>
+          </div>
+          <div class="grid md:grid-cols-[120px_1fr] md:gap-8">
+            <dt class="font-semibold text-muted">Estudios</dt>
+            <dd class="text-ink">Ingeniería en Informática, UNET</dd>
+          </div>
+          <div class="grid md:grid-cols-[120px_1fr] md:gap-8">
+            <dt class="font-semibold text-muted">Trabajo</dt>
+            <dd class="text-ink">Proyectos para clientes</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <Contact />
 </Layout>

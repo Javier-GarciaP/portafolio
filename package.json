@@ -6,19 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test src/lib/contact.test.ts"
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
     "@astrojs/vercel": "^9.0.4",
-    "@fontsource-variable/onest": "^5.2.11",
     "@tailwindcss/vite": "^4.1.18",
-    "@types/react": "^19.2.10",
-    "@types/react-dom": "^19.2.3",
     "astro": "^5.16.16",
-    "framer-motion": "^12.29.2",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
     "resend": "^6.9.1",
     "tailwindcss": "^4.1.18"
   }

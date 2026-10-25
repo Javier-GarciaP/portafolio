@@ -1,0 +1,261 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Scene from "./Scene.astro";
+import Contact from "./Contact.astro";
+import { CV_URL, type Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const d = project.detail;
+const backHref = project.kind === "open" ? "/#comunidad" : "/#casos";
+const code =
+  {
+    "bodegon-goyo": "bodegon",
+    "laboratorio-clinico-vitaly": "vitaly",
+    decoartesjb: "decoartes",
+  }[project.slug] ?? project.slug;
+const nextFieldClass =
+  ((d.next?.scene ?? "").match(/scene-(\w+)\.webp/) || [])[1];
+const fieldClasses: Record<string, string> = {
+  bodegon: "bg-field-bodegon",
+  vitaly: "bg-field-vitaly",
+  decoartes: "bg-field-decoartes",
+  sprixel: "bg-field-sprixel",
+  fosforo: "bg-field-fosforo",
+};
+const nextClass =
+  fieldClasses[nextFieldClass ?? ""] ?? "bg-raised";
+---
+
+<Layout
+  title={`${project.name} — José Javier García`}
+  description={d.intro}
+  ogImage={project.scene}
+>
+  <section class={`ch-${code} ${fieldClasses[code] ?? "bg-ground"}`}>
+    <div class="page-x mx-auto max-w-[1440px] pt-20 pb-10">
+      <a
+        href={backHref}
+        class="text-sm text-muted underline underline-offset-4 hover:text-ink"
+      >
+        ← Volver a los casos
+      </a>
+      <h1 class="mt-4 font-display text-[46px] leading-none font-extrabold tracking-[-0.03em] text-ink md:text-[88px]">
+        {project.name}
+      </h1>
+      <p
+        class="mt-4 inline-flex items-center gap-2 bg-on-orange/60 px-3 py-1.5 text-[12px] font-semibold text-ink"
+      >
+        <span aria-hidden="true" class="size-2 bg-accent"></span>
+        {project.status}
+      </p>
+      <p class="mt-4 max-w-[600px] text-[17px] leading-relaxed text-muted">
+        {d.intro}
+      </p>
+      {
+        project.link && (
+          <a href={project.link.href} class="btn btn-accent mt-6" rel="noopener">
+            Ver en GitHub
+          </a>
+        )
+      }
+      <Scene
+        scene={project.scene}
+        alt={project.sceneAlt}
+        eager
+        className="mx-auto mt-6 max-w-[1056px]"
+      />
+    </div>
+  </section>
+
+  <div class="page-x mx-auto grid max-w-[1440px] gap-4 py-10 md:grid-cols-4">
+    {
+      d.facts.map((f) => (
+        <div class="rounded-card bg-raised p-5">
+          <p class="text-[12px] text-muted">{f.label}</p>
+          <p class="mt-2 text-[14px] font-semibold text-ink">{f.value}</p>
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    d.sections.map((s) => (
+      <section class="bg-surface">
+        <div class="page-x mx-auto grid max-w-[1440px] gap-3 py-10 md:grid-cols-[36%_1fr] md:gap-12">
+          <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink">
+            {s.title}
+          </h2>
+          <p class="max-w-[632px] text-[16px] leading-relaxed text-muted">
+            {s.text}
+          </p>
+        </div>
+      </section>
+    ))
+  }
+
+  {
+    d.features && (
+      <section class="page-x mx-auto max-w-[1440px] py-12">
+        <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink">
+          {d.features.heading}
+        </h2>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {d.features.items.map((f) => (
+            <div class="rounded-card bg-raised p-5">
+              <span aria-hidden="true" class="mb-3 block size-2.5 bg-accent"></span>
+              <h3 class="text-[15px] font-bold text-ink">{f.title}</h3>
+              <p class="mt-2 text-[13px] leading-relaxed text-muted">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.statusCard && (
+      <section class="page-x mx-auto max-w-[1440px] py-6">
+        <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink">
+          {d.statusCard.heading}
+        </h2>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {d.statusCard.items.map((f) => (
+            <div class="rounded-card bg-raised p-5">
+              <span aria-hidden="true" class="mb-3 block size-2.5 bg-accent"></span>
+              <h3 class="text-[15px] font-bold text-ink">{f.title}</h3>
+              <p class="mt-2 text-[13px] leading-relaxed text-muted">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.tech.length > 0 && (
+      <section class="page-x mx-auto max-w-[1440px] py-10">
+        <div class="grid gap-6 md:grid-cols-[36%_1fr]">
+          <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink">
+            Tecnología
+          </h2>
+          <div>
+            <ul class="flex flex-wrap gap-3">
+              {d.tech.map((t) => (
+                <li class="rounded-card bg-raised px-4 py-2 text-[13px] font-semibold text-ink">
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <p class="mt-4 text-[14px] text-muted">{d.techNote}</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.captures && (
+      <section class="bg-surface">
+        <div class="page-x mx-auto max-w-[1440px] py-14">
+          <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink md:text-[34px]">
+            {d.captures.heading}
+          </h2>
+          <p class="mt-3 max-w-[860px] text-[14px] text-muted">{d.captures.note}</p>
+          {d.captures.items.length > 0 && (
+            <div class="mt-8 grid gap-6 lg:grid-cols-[800px_1fr]">
+              <figure>
+                <img
+                  src={d.captures.items[0].src}
+                  alt={d.captures.items[0].alt}
+                  width="800"
+                  height="502"
+                  loading="lazy"
+                  decoding="async"
+                  class="aspect-[1.59/1] w-full rounded-card bg-raised object-cover"
+                />
+                <figcaption class="mt-2 text-[13px] text-muted">
+                  {d.captures.items[0].caption}
+                </figcaption>
+              </figure>
+              <div class="grid content-start gap-6">
+                {d.captures.items.slice(1).map((c) => (
+                  <figure>
+                    <img
+                      src={c.src}
+                      alt={c.alt}
+                      width="480"
+                      height="301"
+                      loading="lazy"
+                      decoding="async"
+                      class="aspect-[1.59/1] w-full rounded-card bg-raised object-cover"
+                    />
+                    <figcaption class="mt-2 text-[13px] text-muted">
+                      {c.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.results && (
+      <section class="page-x mx-auto grid max-w-[1440px] gap-3 py-12 md:grid-cols-[36%_1fr] md:gap-12">
+        <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink">
+          {d.results.heading}
+        </h2>
+        <p class="text-[16px] leading-relaxed text-muted">{d.results.text}</p>
+      </section>
+    )
+  }
+
+  {
+    d.openLicense && (
+      <section class="page-x mx-auto max-w-[1440px] py-10">
+        <h2 class="font-display text-[26px] font-extrabold tracking-tight text-ink">
+          {d.openLicense.heading}
+        </h2>
+        <p class="mt-3 text-[15px] text-muted">{d.openLicense.text}</p>
+        {project.link && (
+          <a href={project.link.href} class="btn btn-accent mt-5" rel="noopener">
+            Ver en GitHub
+          </a>
+        )}
+      </section>
+    )
+  }
+
+  {
+    d.next && (
+      <section class={nextClass}>
+        <div class="page-x mx-auto grid max-w-[1440px] items-center gap-8 py-12 md:grid-cols-2">
+          <div>
+            <p class="text-[13px] text-muted">{d.next.label}</p>
+            <h2 class="mt-2 font-display text-[28px] font-extrabold tracking-tight text-ink md:text-[40px]">
+              <a href={d.next.slug} class="hover:text-accent">{d.next.name}</a>
+            </h2>
+            <a href={d.next.slug} class="btn btn-light mt-5">Ver más</a>
+          </div>
+          <img
+            src={d.next.scene}
+            alt=""
+            width="1056"
+            height="816"
+            loading="lazy"
+            decoding="async"
+            class="pixel mx-auto w-full max-w-[528px]"
+          />
+        </div>
+      </section>
+    )
+  }
+
+  <Contact compact />
+</Layout>

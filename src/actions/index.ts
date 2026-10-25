@@ -1,39 +1,37 @@
-import { defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
-import { Resend } from 'resend';
-
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
+import { defineAction, ActionError } from "astro:actions";
+import { Resend } from "resend";
+import { contactSchema, isBot, buildEmailHtml } from "../lib/contact";
 
 export const server = {
   sendEmail: defineAction({
-    accept: 'form',
-    input: z.object({
-      name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-      email: z.string().email("Correo electrónico no válido"),
-      message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
-    }),
-    handler: async ({ name, email, message }) => {
-      const { data, error } = await resend.emails.send({
-        from: 'Portfolio <onboarding@resend.dev>',
-        to: ['josejaviergarciap123@gmail.com'],
-        subject: `Nuevo mensaje de contacto de ${name}`,
-        html: `
-          <h1>Nuevo mensaje de contacto</h1>
-          <p><strong>Nombre:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Mensaje:</strong></p>
-          <p>${message}</p>
-        `,
-      });
+    accept: "form",
+    input: contactSchema,
+    handler: async (input) => {
+      // Bots get the same answer as people, so they learn nothing.
+      if (isBot(input)) return { success: true };
 
-      if (error) {
-        throw new Error(error.message);
+      const apiKey = import.meta.env.RESEND_API_KEY;
+      if (!apiKey) {
+        throw new ActionError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "El envío no está configurado todavía.",
+        });
       }
 
-      return {
-        success: true,
-        data,
-      };
+      const { error } = await new Resend(apiKey).emails.send({
+        from: "Portfolio <onboarding@resend.dev>",
+        to: ["josejaviergarciap123@gmail.com"],
+        replyTo: input.email,
+        subject: `Nuevo mensaje de contacto de ${input.name.replace(/[\r\n]+/g, " ")}`,
+        html: buildEmailHtml(input),
+      });
+      if (error) {
+        throw new ActionError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+        });
+      }
+      return { success: true };
     },
   }),
 };
